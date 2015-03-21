@@ -16,6 +16,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
+
+import com.google.gson.Gson;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
@@ -40,12 +44,13 @@ public class Movimentacao {
 	
 	// relacionamento
 	@ManyToOne
-	@XmlTransient // JAXB nao consegue lidar com relacionamento bidirecional, logo usa-se essa notacao para nao serializar esse atributo especifico
+	@XmlTransient
 	private Conta conta;
 	
 	/**
 	 * @return the conta
 	 */
+	@XmlInverseReference(mappedBy="movimentacoes")
 	public Conta getConta() {
 		return conta;
 	}
@@ -125,6 +130,10 @@ public class Movimentacao {
 	 */
 	public void setDescriao(String descriao) {
 		this.descriao = descriao;
+	}
+	
+	public String toJon(){
+		return new Gson().toJson(this);
 	}
 	
 }

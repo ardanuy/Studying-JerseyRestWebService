@@ -46,5 +46,17 @@ public class FinancaResource {
 		Conta conta = new ContaDao(new JPAUtil().getEntityManager()).buscaContaPorId(contaId);
 		
 		return conta;
-	} 
+	}
+	
+	@Path("conta/json/{contaId}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public String buscarContaEmJson(@PathParam("contaId") Integer contaId){
+		//ContaDao contaDao = new ContaDao(new JPAUtil().getEntityManager());		
+		//Conta conta = contaDao.buscaContaPorId(contaId);
+		
+		Conta conta = new ContaDao(new JPAUtil().getEntityManager()).buscaContaPorId(contaId);		
+		
+		return conta.toJon();
+	}
 }

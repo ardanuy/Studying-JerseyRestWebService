@@ -11,11 +11,14 @@ import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-@Entity
+import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
+
+import com.google.gson.Gson;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@Entity
 public class Conta {
 		
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -28,7 +31,7 @@ public class Conta {
 	Conta(){}
 	
 	@OneToMany(mappedBy="conta", fetch=FetchType.LAZY)
-	@XmlTransient // JAXB nao consegue lidar com relacionamento bidirecional, logo usa-se essa notacao para nao serializar esse atributo especifico
+	@XmlInverseReference(mappedBy="conta")	
 	private List<Movimentacao> movimentacoes;
 	
 	public List<Movimentacao> getMovimentacoes(){
@@ -103,5 +106,7 @@ public class Conta {
 		this.agencia = agencia;
 	}
 	
-
+	public String toJon(){
+		return new Gson().toJson(this);
+	}
 }
