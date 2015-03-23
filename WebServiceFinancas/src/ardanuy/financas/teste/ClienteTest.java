@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import ardanuy.financas.modelo.Conta;
+import ardanuy.financas.modelo.Movimentacao;
 
 public class ClienteTest {
 	
@@ -35,6 +36,15 @@ public class ClienteTest {
 		Conta conta = target.path(path).request().get(Conta.class);
 		
 		Assert.assertEquals("Andrey", conta.getTitular());
+	}
+	
+	@Test
+	public void testaQueBuscaMovimentacoesDeUmaConta(){
+		SetupClient();
+		String path = "/WebServiceFinancas/financas/conta/21";
+		Conta conta = target.path(path).request().get(Conta.class);
+		
+		Assert.assertNotNull(conta.getMovimentacoes());
 	}
 
 }
